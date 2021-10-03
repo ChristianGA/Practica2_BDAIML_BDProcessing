@@ -47,7 +47,7 @@ object AntennaBatchJob extends BatchJob {
       ).drop($"metadata.id")
   }
 
-  override def computeBytesCountByAntenna(dataFrame: DataFrame: DataFrame = {
+  override def computeBytesCountByAntenna(dataFrame: DataFrame): DataFrame = {
     dataFrame
       .select($"bytes", $"timestamp", $"antenna_id")
       .groupBy($"antenna_id")
