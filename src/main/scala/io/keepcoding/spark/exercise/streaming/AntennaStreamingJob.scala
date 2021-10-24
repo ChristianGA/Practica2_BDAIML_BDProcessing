@@ -61,7 +61,8 @@ object AntennaStreamingJob extends StreamingJob {
       .withWatermark("timestamp", "1 minute")
       .groupBy($"antenna_id", window($"timestamp", "5 minutes"))
       .agg(sum($"bytes").as("antenna_total_bytes"))
-      .select($"antenna_id", $"window.start".as("timestamp"), $"antenna_total_bytes")
+      .withColumn("type", lit("antenna_total_bytes"))
+      .select($"window.start".as("timestamp"), $"antenna_id", $"antenna_total_bytes", $"type")
   }
 
   override def computeBytesByUserId(dataFrame: DataFrame): DataFrame = {
